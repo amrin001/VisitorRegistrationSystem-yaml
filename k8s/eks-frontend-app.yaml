@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app-deployment
+  namespace: react-app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: ai-assistant
+  template:
+    metadata:
+      labels:
+        app: ai-assistant
+    spec:
+      containers:
+      - name: ai-assistant
+        image: amrinanan94/ai-assistant-app:1.0
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "356Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-assistant-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: react-app
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000

@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: eks-sample-windows-service
-  namespace: eks-sample-app
+  name: eks-sample-streamhub-service
+  namespace: streamhub-app
   labels:
-    app: eks-sample-windows-app
+    app: streamhub-app
 spec:
+  type: LoadBalancer
   selector:
-    app: eks-sample-windows-app
+    app: streamhub-app
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 5173
+      targetPort: 5173
