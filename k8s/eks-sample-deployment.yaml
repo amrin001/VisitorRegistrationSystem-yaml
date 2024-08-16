@@ -4,7 +4,7 @@ metadata:
   name: streamhub-deployment
   namespace: streamhub-app
 spec:
-  replicas: 2
+  replicas: 0
   selector:
     matchLabels:
       app: streamhub-app

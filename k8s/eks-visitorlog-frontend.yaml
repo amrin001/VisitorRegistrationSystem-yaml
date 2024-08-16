@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  namespace: visitor-registration-app
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: visitorlog-frontend
+  template:
+    metadata:
+      labels:
+        app: visitorlog-frontend
+    spec:
+      containers:
+      - name: visitorlog-frontend
+        image: maylwin/visitorregistrationsystem-frontend-frontend:1.0  
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: visitorlog-frontend-service
+  namespace: visitor-registration-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: visitorlog-frontend
+  ports:
+  - port: 3000
+    targetPort: 3000
+    protocol: TCP
+    name: http

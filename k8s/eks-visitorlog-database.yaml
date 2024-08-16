@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: visitorlog-database
+  template:
+    metadata:
+      labels:
+        app: visitorlog-database
+    spec:
+      containers:
+      - name: visitorlog-database
+        image: maylwin/mysql:1.0
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 2000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: visitorlog-database-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: visitorlog
+  ports:
+  - port: 80
+    targetPort: 2000
+    protocol: TCP
